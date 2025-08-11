@@ -180,7 +180,7 @@ namespace SpellWork.Database
 
                             spellInfo.EquippedItems = new SpellEquippedItemsEntry()
                             {
-                                EquippedItemClass = (sbyte)reader.GetInt32(58),
+                                EquippedItemClass = reader.GetInt32(58),
                                 EquippedItemInvTypes = reader.GetInt32(60),
                                 EquippedItemSubclass = reader.GetInt32(59)
                             };

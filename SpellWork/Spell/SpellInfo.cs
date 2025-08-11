@@ -124,7 +124,7 @@ namespace SpellWork.Spell
 
         #region
         public int ChargeRecoveryTime => DBC.DBC.SpellCategory.TryGetValue(ChargeCategory, out var category) ? category.ChargeRecoveryTime : 0;
-        public sbyte MaxCharges => DBC.DBC.SpellCategory.TryGetValue(ChargeCategory, out var category) ? category.MaxCharges : (sbyte)0;
+        public int MaxCharges => DBC.DBC.SpellCategory.TryGetValue(ChargeCategory, out var category) ? category.MaxCharges : 0;
         #endregion
 
         #region SpellShapeshift

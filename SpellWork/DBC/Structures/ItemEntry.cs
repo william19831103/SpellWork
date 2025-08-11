@@ -6,7 +6,7 @@ namespace SpellWork.DBC.Structures
     {
         [Index(true)]
         public uint ID;
-        public byte ClassID;
+        public int ClassID;
         public byte SubclassID;
         public byte Material;
         public sbyte InventoryType;

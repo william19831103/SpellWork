@@ -434,6 +434,10 @@ namespace SpellWork.Spell
         SPELL_EFFECT_UI_ACTION                          = 339,
         SPELL_EFFECT_340                                = 340,
         SPELL_EFFECT_LEARN_WARBAND_SCENE                = 341,
+        SPELL_EFFECT_342                                = 342,
+        SPELL_EFFECT_343                                = 343,
+        SPELL_EFFECT_344                                = 344, // some kind of teleport
+        SPELL_EFFECT_ASSIST_ACTION                      = 345, // MiscValue[0] = AssistActionType, MiscValue[1] = ID, depends on type
         TOTAL_SPELL_EFFECTS
     };
 
@@ -1086,6 +1090,8 @@ namespace SpellWork.Spell
         SPELL_AURA_641                                          = 641,
         SPELL_AURA_642                                          = 642,
         SPELL_AURA_MOD_RANGED_ATTACK_SPEED_FLAT                 = 643, // NYI
+        SPELL_AURA_644                                          = 644,
+        SPELL_AURA_645                                          = 645,
         TOTAL_AURAS
     }
 
