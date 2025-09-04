@@ -257,6 +257,8 @@
             // _cbTarget2
             // 
             this._cbTarget2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this._cbTarget2.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this._cbTarget2.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this._cbTarget2.DropDownHeight = 500;
             this._cbTarget2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbTarget2.FormattingEnabled = true;
@@ -270,6 +272,8 @@
             // _cbTarget1
             // 
             this._cbTarget1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this._cbTarget1.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this._cbTarget1.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this._cbTarget1.DropDownHeight = 500;
             this._cbTarget1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbTarget1.FormattingEnabled = true;
@@ -283,6 +287,8 @@
             // _cbSpellEffect
             // 
             this._cbSpellEffect.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this._cbSpellEffect.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this._cbSpellEffect.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this._cbSpellEffect.DropDownHeight = 500;
             this._cbSpellEffect.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbSpellEffect.FormattingEnabled = true;
@@ -296,6 +302,8 @@
             // _cbSpellAura
             // 
             this._cbSpellAura.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this._cbSpellAura.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this._cbSpellAura.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this._cbSpellAura.DropDownHeight = 500;
             this._cbSpellAura.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbSpellAura.FormattingEnabled = true;
@@ -309,6 +317,8 @@
             // _cbSpellFamily
             // 
             this._cbSpellFamily.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this._cbSpellFamily.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
+            this._cbSpellFamily.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this._cbSpellFamily.DropDownHeight = 500;
             this._cbSpellFamily.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbSpellFamily.FormattingEnabled = true;
