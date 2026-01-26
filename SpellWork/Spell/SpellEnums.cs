@@ -438,6 +438,15 @@ namespace SpellWork.Spell
         SPELL_EFFECT_343                                = 343,
         SPELL_EFFECT_344                                = 344, // some kind of teleport
         SPELL_EFFECT_ASSIST_ACTION                      = 345, // MiscValue[0] = AssistActionType, MiscValue[1] = ID, depends on type
+        SPELL_EFFECT_346                                = 346,
+        SPELL_EFFECT_EQUIP_TRANSMOG_OUTFIT              = 347, // MiscValue[0] = TransmogOutfitEntry
+        SPELL_EFFECT_GIVE_HOUSE_LEVEL                   = 348,
+        SPELL_EFFECT_LEARN_HOUSE_ROOM                   = 349, // MiscValue[0] = HouseRoom
+        SPELL_EFFECT_LEARN_HOUSE_EXTERIOR_COMPONENT     = 350, // MiscValue[0] = ExteriorComponent
+        SPELL_EFFECT_LEARN_HOUSE_THEME                  = 351, // MiscValue[0] = HouseTheme
+        SPELL_EFFECT_LEARN_HOUSE_ROOM_COMPONENT_TEXTURE = 352, // MiscValue[0] = RoomComponentTexture
+        SPELL_EFFECT_CREATE_AREATRIGGER_2               = 353,
+        SPELL_EFFECT_SET_NEIGHBORHOOD_INITIATIVE        = 354, // MiscValue[0] = NeighborhoodInitiative
         TOTAL_SPELL_EFFECTS
     };
 
@@ -1092,6 +1101,16 @@ namespace SpellWork.Spell
         SPELL_AURA_MOD_RANGED_ATTACK_SPEED_FLAT                 = 643, // NYI
         SPELL_AURA_644                                          = 644,
         SPELL_AURA_645                                          = 645,
+        SPELL_AURA_ADD_FLAT_PVP_MODIFIER                        = 646,
+        SPELL_AURA_ADD_PCT_PVP_MODIFIER                         = 647,
+        SPELL_AURA_ADD_FLAT_PVP_MODIFIER_BY_SPELL_LABEL         = 648,
+        SPELL_AURA_ADD_PCT_PVP_MODIFIER_BY_SPELL_LABEL          = 649,
+        SPELL_AURA_650                                          = 650,
+        SPELL_AURA_651                                          = 651,
+        SPELL_AURA_652                                          = 652,
+        SPELL_AURA_653                                          = 653,
+        SPELL_AURA_654                                          = 654,
+        SPELL_AURA_REMOVE_TRANSMOG_OUTFIT_UPDATE_COST           = 655,
         TOTAL_AURAS
     }
 
@@ -1581,6 +1600,20 @@ namespace SpellWork.Spell
         MaxAuraStacks               = 37,
         ProcCooldown                = 38,
         PowerCost2                  = 39, // Used when SpellPowerEntry::PowerIndex == 2
+    };
+
+    public enum SpellPvpModifier
+    {
+        HealingAndDamage            = 0,
+        PeriodicHealingAndDamage    = 1,
+        BonusCoefficient            = 2,
+
+        Points                      = 4,
+        PointsIndex0                = 5,
+        PointsIndex1                = 6,
+        PointsIndex2                = 7,
+        PointsIndex3                = 8,
+        PointsIndex4                = 9,
     };
 
     [Flags]
@@ -2192,155 +2225,155 @@ namespace SpellWork.Spell
     [Flags]
     public enum SpellAtributeEx10 : uint
     {
-        SPELL_ATTR10_UNK0                                               = 0x00000001, // TITLE Unknown attribute 0@Attr10
-        SPELL_ATTR10_UNK1                                               = 0x00000002, // TITLE Unknown attribute 1@Attr10
-        SPELL_ATTR10_USES_RANGED_SLOT_COSMETIC_ONLY                     = 0x00000004, // TITLE Uses Ranged Slot (Cosmetic Only)
-        SPELL_ATTR10_UNK3                                               = 0x00000008, // TITLE Unknown attribute 3@Attr10
-        SPELL_ATTR10_WATER_SPOUT                                        = 0x00000010, // TITLE NPC Knockback - ignore doors
-        SPELL_ATTR10_UNK5                                               = 0x00000020, // TITLE Unknown attribute 5@Attr10
-        SPELL_ATTR10_UNK6                                               = 0x00000040, // TITLE Unknown attribute 6@Attr10
-        SPELL_ATTR10_TELEPORT_PLAYER                                    = 0x00000080, // TITLE Ignore instance lock and farm limit on teleport
-        SPELL_ATTR10_UNK8                                               = 0x00000100, // TITLE Unknown attribute 8@Attr10
-        SPELL_ATTR10_UNK9                                               = 0x00000200, // TITLE Unknown attribute 9@Attr10
-        SPELL_ATTR10_UNK10                                              = 0x00000400, // TITLE Unknown attribute 10@Attr10
-        SPELL_ATTR10_HERB_GATHERING_MINING                              = 0x00000800, // TITLE Lock chest at precast
-        SPELL_ATTR10_USE_SPELL_BASE_LEVEL_FOR_SCALING                   = 0x00001000, // TITLE Use Spell Base Level For Scaling
-        SPELL_ATTR10_RESET_COOLDOWN_ON_ENCOUNTER_END                    = 0x00002000, // TITLE Reset cooldown upon ending an encounter
-        SPELL_ATTR10_ROLLING_PERIODIC                                   = 0x00004000, // TITLE Rolling Periodic DESCRIPTION Add remaining periodic damage to new aura when refreshed
-        SPELL_ATTR10_UNK15                                              = 0x00008000, // TITLE Unknown attribute 15@Attr10
-        SPELL_ATTR10_UNK16                                              = 0x00010000, // TITLE Unknown attribute 16@Attr10
-        SPELL_ATTR10_CAN_DODGE_PARRY_WHILE_CASTING                      = 0x00020000, // TITLE Allow Defense While Casting
-        SPELL_ATTR10_UNK18                                              = 0x00040000, // TITLE Unknown attribute 18@Attr10
-        SPELL_ATTR10_UNK19                                              = 0x00080000, // TITLE Unknown attribute 19@Attr10
-        SPELL_ATTR10_UNK20                                              = 0x00100000, // TITLE Unknown attribute 20@Attr10
-        SPELL_ATTR10_UNK21                                              = 0x00200000, // TITLE Unknown attribute 21@Attr10
-        SPELL_ATTR10_UNK22                                              = 0x00400000, // TITLE Unknown attribute 22@Attr10
-        SPELL_ATTR10_UNK23                                              = 0x00800000, // TITLE Unknown attribute 23@Attr10
-        SPELL_ATTR10_UNK24                                              = 0x01000000, // TITLE Unknown attribute 24@Attr10
-        SPELL_ATTR10_UNK25                                              = 0x02000000, // TITLE Unknown attribute 25@Attr10
-        SPELL_ATTR10_UNK26                                              = 0x04000000, // TITLE Unknown attribute 26@Attr10
-        SPELL_ATTR10_UNK27                                              = 0x08000000, // TITLE Unknown attribute 27@Attr10
-        SPELL_ATTR10_UNK28                                              = 0x10000000, // TITLE Unknown attribute 28@Attr10
-        SPELL_ATTR10_MOUNT_IS_NOT_ACCOUNT_WIDE                          = 0x20000000, // TITLE This Mount is NOT at the account level
-        SPELL_ATTR10_UNK30                                              = 0x40000000, // TITLE Unknown attribute 30@Attr10
-        SPELL_ATTR10_UNK31                                              = 0x80000000  // TITLE Unknown attribute 31@Attr10
+        SPELL_ATTR10_BYPASS_VISIBILITY_CHECK                            = 0x00000001, //  0
+        SPELL_ATTR10_IGNORE_POSITIVE_DAMAGE_TAKEN_MODIFIERS             = 0x00000002, //  1
+        SPELL_ATTR10_USES_RANGED_SLOT_COSMETIC_ONLY                     = 0x00000004, //  2
+        SPELL_ATTR10_DO_NOT_LOG_FULL_OVERHEAL                           = 0x00000008, //  3
+        SPELL_ATTR10_NPC_KNOCKBACK__IGNORE_DOORS                        = 0x00000010, //  4
+        SPELL_ATTR10_FORCE_NON_BINARY_RESISTANCE                        = 0x00000020, //  5
+        SPELL_ATTR10_NO_SUMMON_LOG                                      = 0x00000040, //  6
+        SPELL_ATTR10_IGNORE_INSTANCE_LOCK_AND_FARM_LIMIT_ON_TELEPORT    = 0x00000080, //  7 4 Teleport Player spells
+        SPELL_ATTR10_AREA_EFFECTS_USE_TARGET_RADIUS                     = 0x00000100, //  8
+        SPELL_ATTR10_CHARGE_AND_JUMPCHARGE__USE_ABSOLUTE_SPEED          = 0x00000200, //  9
+        SPELL_ATTR10_PROC_COOLDOWN_ON_A_PER_TARGET_BASIS                = 0x00000400, // 10
+        SPELL_ATTR10_LOCK_CHEST_AT_PRECAST                              = 0x00000800, // 11 Only Herb Gathering and Mining
+        SPELL_ATTR10_USE_SPELL_BASE_LEVEL_FOR_SCALING                   = 0x00001000, // 12
+        SPELL_ATTR10_RESET_COOLDOWN_UPON_ENDING_AN_ENCOUNTER            = 0x00002000, // 13
+        SPELL_ATTR10_ROLLING_PERIODIC                                   = 0x00004000, // 14
+        SPELL_ATTR10_SPELLBOOK_HIDDEN_UNTIL_OVERRIDDEN                  = 0x00008000, // 15
+        SPELL_ATTR10_DEFEND_AGAINST_FRIENDLY_CAST                       = 0x00010000, // 16
+        SPELL_ATTR10_ALLOW_DEFENSE_WHILE_CASTING                        = 0x00020000, // 17
+        SPELL_ATTR10_ALLOW_DEFENSE_WHILE_CHANNELING                     = 0x00040000, // 18
+        SPELL_ATTR10_ALLOW_FATAL_DUEL_DAMAGE                            = 0x00080000, // 19
+        SPELL_ATTR10_MULTI_CLICK_GROUND_TARGETING                       = 0x00100000, // 20
+        SPELL_ATTR10_AOE_CAN_HIT_SUMMONED_INVIS                         = 0x00200000, // 21
+        SPELL_ATTR10_ALLOW_WHILE_STUNNED_BY_HORROR_MECHANIC             = 0x00400000, // 22
+        SPELL_ATTR10_VISIBLE_ONLY_TO_CASTER_CONVERSATIONS_ONLY          = 0x00800000, // 23
+        SPELL_ATTR10_UPDATE_PASSIVES_ON_APPLY_AND_REMOVE                = 0x01000000, // 24
+        SPELL_ATTR10_NORMAL_MELEE_ATTACK                                = 0x02000000, // 25
+        SPELL_ATTR10_IGNORE_FEIGN_DEATH                                 = 0x04000000, // 26
+        SPELL_ATTR10_CASTER_DEATH_CANCELS_PERSISTENT_AREA_AURAS         = 0x08000000, // 27
+        SPELL_ATTR10_DO_NOT_LOG_ABSORB                                  = 0x10000000, // 28
+        SPELL_ATTR10_THIS_MOUNT_IS_NOT_AT_THE_ACCOUNT_LEVEL             = 0x20000000, // 29 This mount is stored per-character
+        SPELL_ATTR10_PREVENT_CLIENT_CAST_CANCEL                         = 0x40000000, // 30
+        SPELL_ATTR10_ENFORCE_FACING_ON_PRIMARY_TARGET_ONLY              = 0x80000000  // 31
     };
 
     [Flags]
     enum SpellAtributeEx11 : uint
     {
-        SPELL_ATTR11_UNK0                                               = 0x00000001, // TITLE Unknown attribute 0@Attr11
-        SPELL_ATTR11_UNK1                                               = 0x00000002, // TITLE Unknown attribute 1@Attr11
-        SPELL_ATTR11_SCALES_WITH_ITEM_LEVEL                             = 0x00000004, // TITLE Scales with Casting Item's Level
-        SPELL_ATTR11_UNK3                                               = 0x00000008, // TITLE Unknown attribute 3@Attr11
-        SPELL_ATTR11_UNK4                                               = 0x00000010, // TITLE Unknown attribute 4@Attr11
-        SPELL_ATTR11_ABSORB_ENVIRONMENTAL_DAMAGE                        = 0x00000020, // TITLE Absorb Falling Damage
-        SPELL_ATTR11_UNK6                                               = 0x00000040, // TITLE Unknown attribute 6@Attr11
-        SPELL_ATTR11_RANK_IGNORES_CASTER_LEVEL                          = 0x00000080, // TITLE Ignore Caster's spell level DESCRIPTION Spell_C_GetSpellRank returns SpellLevels->MaxLevel * 5 instead of std::min(SpellLevels->MaxLevel, caster->Level) * 5
-        SPELL_ATTR11_UNK8                                               = 0x00000100, // TITLE Unknown attribute 8@Attr11
-        SPELL_ATTR11_IGNORE_SPELLCAST_OVERRIDE_SHAPESHIFT_REQUIREMENTS  = 0x00000200, // TITLE Ignore Spellcast Override Shapeshift Requirements
-        SPELL_ATTR11_UNK10                                              = 0x00000400, // TITLE Unknown attribute 10@Attr11
-        SPELL_ATTR11_NOT_USABLE_IN_INSTANCES                            = 0x00000800, // TITLE Not in Instances
-        SPELL_ATTR11_UNK12                                              = 0x00001000, // TITLE Unknown attribute 12@Attr11
-        SPELL_ATTR11_UNK13                                              = 0x00002000, // TITLE Unknown attribute 13@Attr11
-        SPELL_ATTR11_UNK14                                              = 0x00004000, // TITLE Unknown attribute 14@Attr11
-        SPELL_ATTR11_UNK15                                              = 0x00008000, // TITLE Unknown attribute 15@Attr11
-        SPELL_ATTR11_NOT_USABLE_IN_CHALLENGE_MODE                       = 0x00010000, // TITLE Not in Mythic+ Mode (Challenge Mode)
-        SPELL_ATTR11_UNK17                                              = 0x00020000, // TITLE Unknown attribute 17@Attr11
-        SPELL_ATTR11_UNK18                                              = 0x00040000, // TITLE Unknown attribute 18@Attr11
-        SPELL_ATTR11_UNK19                                              = 0x00080000, // TITLE Unknown attribute 19@Attr11
-        SPELL_ATTR11_UNK20                                              = 0x00100000, // TITLE Unknown attribute 20@Attr11
-        SPELL_ATTR11_UNK21                                              = 0x00200000, // TITLE Unknown attribute 21@Attr11
-        SPELL_ATTR11_UNK22                                              = 0x00400000, // TITLE Unknown attribute 22@Attr11
-        SPELL_ATTR11_UNK23                                              = 0x00800000, // TITLE Unknown attribute 23@Attr11
-        SPELL_ATTR11_UNK24                                              = 0x01000000, // TITLE Unknown attribute 24@Attr11
-        SPELL_ATTR11_UNK25                                              = 0x02000000, // TITLE Unknown attribute 25@Attr11
-        SPELL_ATTR11_UNK26                                              = 0x04000000, // TITLE Unknown attribute 26@Attr11
-        SPELL_ATTR11_UNK27                                              = 0x08000000, // TITLE Unknown attribute 27@Attr11
-        SPELL_ATTR11_UNK28                                              = 0x10000000, // TITLE Unknown attribute 28@Attr11
-        SPELL_ATTR11_UNK29                                              = 0x20000000, // TITLE Unknown attribute 29@Attr11
-        SPELL_ATTR11_UNK30                                              = 0x40000000, // TITLE Unknown attribute 30@Attr11
-        SPELL_ATTR11_UNK31                                              = 0x80000000  // TITLE Unknown attribute 31@Attr11
+        SPELL_ATTR11_LOCK_CASTER_MOVEMENT_AND_FACING_WHILE_CASTING      = 0x00000001, //  0
+        SPELL_ATTR11_DONT_CANCEL_WHEN_ALL_EFFECTS_ARE_DISABLED          = 0x00000002, //  1
+        SPELL_ATTR11_SCALES_WITH_CASTING_ITEMS_LEVEL                    = 0x00000004, //  2
+        SPELL_ATTR11_DO_NOT_LOG_ON_LEARN                                = 0x00000008, //  3
+        SPELL_ATTR11_HIDE_SHAPESHIFT_REQUIREMENTS                       = 0x00000010, //  4
+        SPELL_ATTR11_ABSORB_FALLING_DAMAGE                              = 0x00000020, //  5
+        SPELL_ATTR11_UNBREAKABLE_CHANNEL                                = 0x00000040, //  6
+        SPELL_ATTR11_IGNORE_CASTERS_SPELL_LEVEL                         = 0x00000080, //  7 Spell_C_GetSpellRank returns SpellLevels->MaxLevel * 5 instead of std::min(SpellLevels->MaxLevel, caster->Level) * 5
+        SPELL_ATTR11_TRANSFER_MOUNT_SPELL                               = 0x00000100, //  8
+        SPELL_ATTR11_IGNORE_SPELLCAST_OVERRIDE_SHAPESHIFT_REQUIREMENTS  = 0x00000200, //  9
+        SPELL_ATTR11_NEWEST_EXCLUSIVE_COMPLETE                          = 0x00000400, // 10
+        SPELL_ATTR11_NOT_IN_INSTANCES                                   = 0x00000800, // 11
+        SPELL_ATTR11_OBSOLETE                                           = 0x00001000, // 12
+        SPELL_ATTR11_IGNORE_PVP_POWER                                   = 0x00002000, // 13
+        SPELL_ATTR11_CAN_ASSIST_UNINTERACTIBLE                          = 0x00004000, // 14
+        SPELL_ATTR11_CAST_WHEN_INITIAL_LOGGING_IN                       = 0x00008000, // 15
+        SPELL_ATTR11_NOT_IN_MYTHIC_PLUS_MODE_CHALLENGE_MODE             = 0x00010000, // 16
+        SPELL_ATTR11_CHEAPER_NPC_KNOCKBACK                              = 0x00020000, // 17
+        SPELL_ATTR11_IGNORE_CASTER_ABSORB_MODIFIERS                     = 0x00040000, // 18
+        SPELL_ATTR11_IGNORE_TARGET_ABSORB_MODIFIERS                     = 0x00080000, // 19
+        SPELL_ATTR11_HIDE_LOSS_OF_CONTROL_UI                            = 0x00100000, // 20
+        SPELL_ATTR11_ALLOW_HARMFUL_ON_FRIENDLY                          = 0x00200000, // 21
+        SPELL_ATTR11_CHEAP_MISSILE_AOI                                  = 0x00400000, // 22
+        SPELL_ATTR11_EXPENSIVE_MISSILE_AOI                              = 0x00800000, // 23
+        SPELL_ATTR11_NO_CLIENT_FAIL_ON_NO_PET                           = 0x01000000, // 24
+        SPELL_ATTR11_AI_ATTEMPT_CAST_ON_IMMUNE_PLAYER                   = 0x02000000, // 25
+        SPELL_ATTR11_ALLOW_WHILE_STUNNED_BY_STUN_MECHANIC               = 0x04000000, // 26
+        SPELL_ATTR11_DONT_CLOSE_LOOT_WINDOW                             = 0x08000000, // 27
+        SPELL_ATTR11_HIDE_DAMAGE_ABSORB_UI                              = 0x10000000, // 28
+        SPELL_ATTR11_DO_NOT_TREAT_AS_AREA_EFFECT                        = 0x20000000, // 29
+        SPELL_ATTR11_CHECK_REQUIRED_TARGET_AURA_BY_CASTER               = 0x40000000, // 30
+        SPELL_ATTR11_APPLY_ZONE_AURA_SPELL_TO_PETS = 0x80000000  // 31
     };
 
     [Flags]
     enum SpellAtributeEx12 : uint
     {
-        SPELL_ATTR12_ENABLE_PROCS_FROM_SUPPRESSED_CASTER_PROCS          = 0x00000001, // TITLE Enable Procs from Suppressed Caster Procs
-        SPELL_ATTR12_CAN_PROC_FROM_SUPPRESSED_CASTER_PROCS              = 0x00000002, // TITLE Can Proc from Suppressed Caster Procs
-        SPELL_ATTR12_UNK2                                               = 0x00000004, // TITLE Unknown attribute 2@Attr12
-        SPELL_ATTR12_UNK3                                               = 0x00000008, // TITLE Unknown attribute 3@Attr12
-        SPELL_ATTR12_UNK4                                               = 0x00000010, // TITLE Unknown attribute 4@Attr12
-        SPELL_ATTR12_UNK5                                               = 0x00000020, // TITLE Unknown attribute 5@Attr12
-        SPELL_ATTR12_UNK6                                               = 0x00000040, // TITLE Unknown attribute 6@Attr12
-        SPELL_ATTR12_UNK7                                               = 0x00000080, // TITLE Unknown attribute 7@Attr12
-        SPELL_ATTR12_UNK8                                               = 0x00000100, // TITLE Unknown attribute 8@Attr12
-        SPELL_ATTR12_IGNORE_CASTING_DISABLED                            = 0x00000200, // TITLE Active Passive DESCRIPTION Ignores aura 263 SPELL_AURA_DISABLE_CASTING_EXCEPT_ABILITIES
-        SPELL_ATTR12_UNK10                                              = 0x00000400, // TITLE Unknown attribute 10@Attr12
-        SPELL_ATTR12_UNK11                                              = 0x00000800, // TITLE Unknown attribute 11@Attr12
-        SPELL_ATTR12_UNK12                                              = 0x00001000, // TITLE Unknown attribute 12@Attr12
-        SPELL_ATTR12_UNK13                                              = 0x00002000, // TITLE Unknown attribute 13@Attr12
-        SPELL_ATTR12_UNK14                                              = 0x00004000, // TITLE Unknown attribute 14@Attr12
-        SPELL_ATTR12_UNK15                                              = 0x00008000, // TITLE Unknown attribute 15@Attr12
-        SPELL_ATTR12_UNK16                                              = 0x00010000, // TITLE Unknown attribute 16@Attr12
-        SPELL_ATTR12_UNK17                                              = 0x00020000, // TITLE Unknown attribute 17@Attr12
-        SPELL_ATTR12_UNK18                                              = 0x00040000, // TITLE Unknown attribute 18@Attr12
-        SPELL_ATTR12_UNK19                                              = 0x00080000, // TITLE Unknown attribute 19@Attr12
-        SPELL_ATTR12_UNK20                                              = 0x00100000, // TITLE Unknown attribute 20@Attr12
-        SPELL_ATTR12_UNK21                                              = 0x00200000, // TITLE Unknown attribute 21@Attr12
-        SPELL_ATTR12_UNK22                                              = 0x00400000, // TITLE Unknown attribute 22@Attr12
-        SPELL_ATTR12_START_COOLDOWN_ON_CAST_START                       = 0x00800000, // TITLE Trigger Cooldown On Spell Start
-        SPELL_ATTR12_IS_GARRISON_BUFF                                   = 0x01000000, // TITLE Never Learn
-        SPELL_ATTR12_UNK25                                              = 0x02000000, // TITLE Unknown attribute 25@Attr12
-        SPELL_ATTR12_UNK26                                              = 0x04000000, // TITLE Unknown attribute 26@Attr12
-        SPELL_ATTR12_IS_READINESS_SPELL                                 = 0x08000000, // TITLE Recompute Aura on Mercenary Mode
-        SPELL_ATTR12_UNK28                                              = 0x10000000, // TITLE Unknown attribute 28@Attr12
-        SPELL_ATTR12_UNK29                                              = 0x20000000, // TITLE Unknown attribute 29@Attr12
-        SPELL_ATTR12_UNK30                                              = 0x40000000, // TITLE Unknown attribute 30@Attr12
-        SPELL_ATTR12_ONLY_PROC_FROM_CLASS_ABILITIES                     = 0x80000000  // TITLE Only Proc From Class Abilities
+        SPELL_ATTR12_ENABLE_PROCS_FROM_SUPPRESSED_CASTER_PROCS          = 0x00000001, //  0
+        SPELL_ATTR12_CAN_PROC_FROM_SUPPRESSED_CASTER_PROCS              = 0x00000002, //  1
+        SPELL_ATTR12_SHOW_COOLDOWN_AS_CHARGE_UP                         = 0x00000004, //  2
+        SPELL_ATTR12_NO_PVP_BATTLE_FATIGUE                              = 0x00000008, //  3
+        SPELL_ATTR12_TREAT_SELF_CAST_AS_REFLECT                         = 0x00000010, //  4
+        SPELL_ATTR12_DO_NOT_CANCEL_AREA_AURA_ON_SPEC_SWITCH             = 0x00000020, //  5
+        SPELL_ATTR12_COOLDOWN_ON_AURA_CANCEL_UNTIL_COMBAT_ENDS          = 0x00000040, //  6
+        SPELL_ATTR12_DO_NOT_RE_APPLY_AREA_AURA_IF_IT_PERSISTS_THROUGH_UPDATE = 0x00000080, //  7
+        SPELL_ATTR12_DISPLAY_TOAST_MESSAGE                              = 0x00000100, //  8
+        SPELL_ATTR12_ACTIVE_PASSIVE                                     = 0x00000200, //  9 Ignores aura 263 SPELL_AURA_DISABLE_CASTING_EXCEPT_ABILITIES
+        SPELL_ATTR12_IGNORE_DAMAGE_CANCELS_AURA_INTERRUPT               = 0x00000400, // 10
+        SPELL_ATTR12_FACE_DESTINATION                                   = 0x00000800, // 11
+        SPELL_ATTR12_IMMUNITY_PURGES_SPELL                              = 0x00001000, // 12
+        SPELL_ATTR12_DO_NOT_LOG_SPELL_MISS                              = 0x00002000, // 13
+        SPELL_ATTR12_IGNORE_DISTANCE_CHECK_ON_CHARGE_AND_JUMP_CHARGE_DONE_TRIGGER_SPELL = 0x00004000, // 14
+        SPELL_ATTR12_DISABLE_KNOWN_SPELLS_WHILE_CHARMED                 = 0x00008000, // 15
+        SPELL_ATTR12_IGNORE_DAMAGE_ABSORB                               = 0x00010000, // 16
+        SPELL_ATTR12_NOT_IN_PROVING_GROUNDS                             = 0x00020000, // 17
+        SPELL_ATTR12_OVERRIDE_DEFAULT_SPELLCLICK_RANGE                  = 0x00040000, // 18
+        SPELL_ATTR12_IS_IN_GAME_STORE_EFFECT                            = 0x00080000, // 19
+        SPELL_ATTR12_ALLOW_DURING_SPELL_OVERRIDE                        = 0x00100000, // 20
+        SPELL_ATTR12_USE_FLOAT_VALUES_FOR_SCALING_AMOUNTS               = 0x00200000, // 21
+        SPELL_ATTR12_SUPPRESS_TOASTS_ON_ITEM_PUSH                       = 0x00400000, // 22
+        SPELL_ATTR12_TRIGGER_COOLDOWN_ON_SPELL_START                    = 0x00800000, // 23
+        SPELL_ATTR12_NEVER_LEARN                                        = 0x01000000, // 24
+        SPELL_ATTR12_NO_DEFLECT                                         = 0x02000000, // 25
+        SPELL_ATTR12_DEPRECATED_USE_START_OF_CAST_LOCATION_FOR_SPELL_DEST = 0x04000000, // 26
+        SPELL_ATTR12_RECOMPUTE_AURA_ON_MERCENARY_MODE                   = 0x08000000, // 27
+        SPELL_ATTR12_USE_WEIGHTED_RANDOM_FOR_FLEX_MAX_TARGETS           = 0x10000000, // 28
+        SPELL_ATTR12_IGNORE_RESILIENCE                                  = 0x20000000, // 29
+        SPELL_ATTR12_APPLY_RESILIENCE_TO_SELF_DAMAGE                    = 0x40000000, // 30
+        SPELL_ATTR12_ONLY_PROC_FROM_CLASS_ABILITIES = 0x80000000  // 31
     };
 
     [Flags]
     enum SpellAtributeEx13 : uint
     {
-        SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS                          = 0x00000001, // TITLE Allow Class Ability Procs
-        SPELL_ATTR13_UNK1                                               = 0x00000002, // TITLE Unknown attribute 0@Attr13
-        SPELL_ATTR13_PASSIVE_IS_UPGRADE                                 = 0x00000004, // TITLE Is Upgrade DESCRIPTION Displays "Upgrade" in spell tooltip instead of "Passive"
-        SPELL_ATTR13_UNK3                                               = 0x00000008, // TITLE Unknown attribute 3@Attr13
-        SPELL_ATTR13_UNK4                                               = 0x00000010, // TITLE Unknown attribute 4@Attr13
-        SPELL_ATTR13_UNK5                                               = 0x00000020, // TITLE Unknown attribute 5@Attr13
-        SPELL_ATTR13_UNK6                                               = 0x00000040, // TITLE Unknown attribute 6@Attr13
-        SPELL_ATTR13_UNK7                                               = 0x00000080, // TITLE Unknown attribute 7@Attr13
-        SPELL_ATTR13_UNK8                                               = 0x00000100, // TITLE Unknown attribute 8@Attr13
-        SPELL_ATTR13_UNK9                                               = 0x00000200, // TITLE Unknown attribute 9@Attr13
-        SPELL_ATTR13_UNK10                                              = 0x00000400, // TITLE Unknown attribute 10@Attr13
-        SPELL_ATTR13_UNK11                                              = 0x00000800, // TITLE Unknown attribute 11@Attr13
-        SPELL_ATTR13_UNK12                                              = 0x00001000, // TITLE Unknown attribute 12@Attr13
-        SPELL_ATTR13_UNK13                                              = 0x00002000, // TITLE Unknown attribute 13@Attr13
-        SPELL_ATTR13_UNK14                                              = 0x00004000, // TITLE Unknown attribute 14@Attr13
-        SPELL_ATTR13_UNK15                                              = 0x00008000, // TITLE Unknown attribute 15@Attr13
-        SPELL_ATTR13_UNK16                                              = 0x00010000, // TITLE Unknown attribute 16@Attr13
-        SPELL_ATTR13_UNK17                                              = 0x00020000, // TITLE Unknown attribute 17@Attr13
-        SPELL_ATTR13_ACTIVATES_REQUIRED_SHAPESHIFT                      = 0x00040000, // TITLE Do Not Enforce Shapeshift Requirements
-        SPELL_ATTR13_UNK19                                              = 0x00080000, // TITLE Unknown attribute 19@Attr13
-        SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION                  = 0x00100000, // TITLE Periodic Refresh Extends Duration
-        SPELL_ATTR13_UNK21                                              = 0x00200000, // TITLE Unknown attribute 21@Attr13
-        SPELL_ATTR13_UNK22                                              = 0x00400000, // TITLE Unknown attribute 22@Attr13
-        SPELL_ATTR13_UNK23                                              = 0x00800000, // TITLE Unknown attribute 23@Attr13
-        SPELL_ATTR13_UNK24                                              = 0x01000000, // TITLE Unknown attribute 24@Attr13
-        SPELL_ATTR13_UNK25                                              = 0x02000000, // TITLE Unknown attribute 25@Attr13
-        SPELL_ATTR13_ALWAYS_ALLOW_NEGATIVE_HEALING_PERCENT_MODIFIERS    = 0x04000000, // TITLE Always Allow Negative Healing Percent Modifiers
-        SPELL_ATTR13_DO_NOT_ALLOW_DISABLE_MOVEMENT_INTERRUPT            = 0x08000000, // TITLE Do Not Allow "Disable Movement Interrupt"
-        SPELL_ATTR13_UNK28                                              = 0x10000000, // TITLE Unknown attribute 28@Attr13
-        SPELL_ATTR13_UNK29                                              = 0x20000000, // TITLE Unknown attribute 29@Attr13
-        SPELL_ATTR13_UNK30                                              = 0x40000000, // TITLE Unknown attribute 30@Attr13
-        SPELL_ATTR13_UNK31                                              = 0x80000000  // TITLE Unknown attribute 31@Attr13
+        SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS                          = 0x00000001, //  0
+        SPELL_ATTR13_ALLOW_WHILE_FEARED_BY_FEAR_MECHANIC                = 0x00000002, //  1
+        SPELL_ATTR13_COOLDOWN_SHARED_WITH_AI_GROUP                      = 0x00000004, //  2
+        SPELL_ATTR13_INTERRUPTS_CURRENT_CAST                            = 0x00000008, //  3
+        SPELL_ATTR13_PERIODIC_SCRIPT_RUNS_LATE                          = 0x00000010, //  4
+        SPELL_ATTR13_RECIPE_HIDDEN_UNTIL_KNOWN                          = 0x00000020, //  5
+        SPELL_ATTR13_CAN_PROC_FROM_LIFESTEAL                            = 0x00000040, //  6
+        SPELL_ATTR13_NAMEPLATE_PERSONAL_BUFFS_AND_DEBUFFS               = 0x00000080, //  7
+        SPELL_ATTR13_CANNOT_LIFESTEAL_AND_LEECH                         = 0x00000100, //  8
+        SPELL_ATTR13_GLOBAL_AURA                                        = 0x00000200, //  9
+        SPELL_ATTR13_NAMEPLATE_ENEMY_DEBUFFS                            = 0x00000400, // 10
+        SPELL_ATTR13_ALWAYS_ALLOW_PVP_FLAGGED_TARGET                    = 0x00000800, // 11
+        SPELL_ATTR13_DO_NOT_CONSUME_AURA_STACK_ON_PROC                  = 0x00001000, // 12
+        SPELL_ATTR13_DO_NOT_PVP_FLAG_CASTER                             = 0x00002000, // 13
+        SPELL_ATTR13_ALWAYS_REQUIRE_PVP_TARGET_MATCH                    = 0x00004000, // 14
+        SPELL_ATTR13_DO_NOT_FAIL_IF_NO_TARGET                           = 0x00008000, // 15
+        SPELL_ATTR13_DISPLAYED_OUTSIDE_OF_SPELLBOOK                     = 0x00010000, // 16
+        SPELL_ATTR13_CHECK_PHASE_ON_STRING_ID_RESULTS                   = 0x00020000, // 17
+        SPELL_ATTR13_DO_NOT_ENFORCE_SHAPESHIFT_REQUIREMENTS             = 0x00040000, // 18
+        SPELL_ATTR13_AURA_PERSISTS_THROUGH_TAME_PET                     = 0x00080000, // 19
+        SPELL_ATTR13_PERIODIC_REFRESH_EXTENDS_DURATION                  = 0x00100000, // 20
+        SPELL_ATTR13_USE_SKILL_RANK_AS_SPELL_LEVEL                      = 0x00200000, // 21
+        SPELL_ATTR13_AURA_ALWAYS_SHOWN                                  = 0x00400000, // 22
+        SPELL_ATTR13_USE_SPELL_LEVEL_FOR_ITEM_SQUISH_COMPENSATION       = 0x00800000, // 23
+        SPELL_ATTR13_CHAIN_BY_MOST_HIT                                  = 0x01000000, // 24
+        SPELL_ATTR13_DO_NOT_DISPLAY_CAST_TIME                           = 0x02000000, // 25
+        SPELL_ATTR13_ALWAYS_ALLOW_NEGATIVE_HEALING_PERCENT_MODIFIERS    = 0x04000000, // 26
+        SPELL_ATTR13_DO_NOT_ALLOW_DISABLE_MOVEMENT_INTERRUPT            = 0x08000000, // 27
+        SPELL_ATTR13_ALLOW_AURA_ON_LEVEL_SCALE                          = 0x10000000, // 28
+        SPELL_ATTR13_REMOVE_AURA_ON_LEVEL_SCALE                         = 0x20000000, // 29
+        SPELL_ATTR13_RECOMPUTE_AURA_ON_LEVEL_SCALE                      = 0x40000000, // 30
+        SPELL_ATTR13_UPDATE_FALL_SPEED_AFTER_AURA_REMOVAL               = 0x80000000  // 31
     };
 
     [Flags]
     enum SpellAtributeEx14 : uint
     {
-        SPELL_ATTR14_UNK0                                               = 0x00000001, // TITLE Unknown attribute 0@Attr14
+        SPELL_ATTR14_PREVENT_JUMPING_DURING_PRECAST                     = 0x00000001, // TITLE Unknown attribute 0@Attr14
         SPELL_ATTR14_REAGENT_COST_CONSUMES_CHARGES                      = 0x00000002, // TITLE Reagent Consume Charges DESCRIPTION Consumes item charges for reagent costs instead of whole items
         SPELL_ATTR14_UNK2                                               = 0x00000004, // TITLE Unknown attribute 2@Attr14
         SPELL_ATTR14_HIDE_PASSIVE_FROM_TOOLTIP                          = 0x00000008, // TITLE Don't show "Passive" or "Upgrade" in tooltip
@@ -2412,6 +2445,43 @@ namespace SpellWork.Spell
     };
 
     [Flags]
+    enum SpellAtributeEx16 : uint
+    {
+        SPELL_ATTR16_UNK0                                               = 0x00000001, // TITLE Unknown attribute 0@Attr16
+        SPELL_ATTR16_UNK1                                               = 0x00000002, // TITLE Unknown attribute 1@Attr16
+        SPELL_ATTR16_UNK2                                               = 0x00000004, // TITLE Unknown attribute 2@Attr16
+        SPELL_ATTR16_UNK3                                               = 0x00000008, // TITLE Unknown attribute 3@Attr16
+        SPELL_ATTR16_UNK4                                               = 0x00000010, // TITLE Unknown attribute 4@Attr16
+        SPELL_ATTR16_UNK5                                               = 0x00000020, // TITLE Unknown attribute 5@Attr16
+        SPELL_ATTR16_UNK6                                               = 0x00000040, // TITLE Unknown attribute 6@Attr16
+        SPELL_ATTR16_UNK7                                               = 0x00000080, // TITLE Unknown attribute 7@Attr16
+        SPELL_ATTR16_UNK8                                               = 0x00000100, // TITLE Unknown attribute 8@Attr16
+        SPELL_ATTR16_UNK9                                               = 0x00000200, // TITLE Unknown attribute 9@Attr16
+        SPELL_ATTR16_UNK10                                              = 0x00000400, // TITLE Unknown attribute 10@Attr16
+        SPELL_ATTR16_UNK11                                              = 0x00000800, // TITLE Unknown attribute 11@Attr16
+        SPELL_ATTR16_UNK12                                              = 0x00001000, // TITLE Unknown attribute 12@Attr16
+        SPELL_ATTR16_UNK13                                              = 0x00002000, // TITLE Unknown attribute 13@Attr16
+        SPELL_ATTR16_UNK14                                              = 0x00004000, // TITLE Unknown attribute 14@Attr16
+        SPELL_ATTR16_UNK15                                              = 0x00008000, // TITLE Unknown attribute 15@Attr16
+        SPELL_ATTR16_UNK16                                              = 0x00010000, // TITLE Unknown attribute 16@Attr16
+        SPELL_ATTR16_UNK17                                              = 0x00020000, // TITLE Unknown attribute 17@Attr16
+        SPELL_ATTR16_UNK18                                              = 0x00040000, // TITLE Unknown attribute 18@Attr16
+        SPELL_ATTR16_UNK19                                              = 0x00080000, // TITLE Unknown attribute 19@Attr16
+        SPELL_ATTR16_UNK20                                              = 0x00100000, // TITLE Unknown attribute 20@Attr16
+        SPELL_ATTR16_UNK21                                              = 0x00200000, // TITLE Unknown attribute 21@Attr16
+        SPELL_ATTR16_UNK22                                              = 0x00400000, // TITLE Unknown attribute 22@Attr16
+        SPELL_ATTR16_UNK23                                              = 0x00800000, // TITLE Unknown attribute 23@Attr16
+        SPELL_ATTR16_UNK24                                              = 0x01000000, // TITLE Unknown attribute 24@Attr16
+        SPELL_ATTR16_UNK25                                              = 0x02000000, // TITLE Unknown attribute 25@Attr16
+        SPELL_ATTR16_UNK26                                              = 0x04000000, // TITLE Unknown attribute 26@Attr16
+        SPELL_ATTR16_UNK27                                              = 0x08000000, // TITLE Unknown attribute 27@Attr16
+        SPELL_ATTR16_UNK28                                              = 0x10000000, // TITLE Unknown attribute 28@Attr16
+        SPELL_ATTR16_UNK29                                              = 0x20000000, // TITLE Unknown attribute 29@Attr16
+        SPELL_ATTR16_UNK30                                              = 0x40000000, // TITLE Unknown attribute 30@Attr16
+        SPELL_ATTR16_UNK31                                              = 0x80000000  // TITLE Unknown attribute 31@Attr16
+    };
+
+    [Flags]
     public enum SpellEffectAttributes : uint
     {
         None                                    = 0,
@@ -2479,10 +2549,11 @@ namespace SpellWork.Spell
 
     public enum UnitMods
     {
-        UNIT_MOD_STAT_STRENGTH,                                 // UNIT_MOD_STAT_STRENGTH..UNIT_MOD_STAT_INTELLECT must be in existed order, it's accessed by index values of Stats enum.
+        UNIT_MOD_STAT_STRENGTH,                                 // UNIT_MOD_STAT_STRENGTH..UNIT_MOD_STAT_SPIRIT must be in existed order, it's accessed by index values of Stats enum.
         UNIT_MOD_STAT_AGILITY,
         UNIT_MOD_STAT_STAMINA,
-        UNIT_MOD_STAT_INTELLECT
+        UNIT_MOD_STAT_INTELLECT,
+        UNIT_MOD_STAT_SPIRIT
     };
 
     [Flags]

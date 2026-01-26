@@ -97,6 +97,7 @@ namespace SpellWork.Spell
         public uint AttributesEx13 => (uint)(Misc?.Attributes[13] ?? 0);
         public uint AttributesEx14 => (uint)(Misc?.Attributes[14] ?? 0);
         public uint AttributesEx15 => (uint)(Misc?.Attributes[15] ?? 0);
+        public uint AttributesEx16 => (uint)(Misc?.Attributes[16] ?? 0);
         public float Speed => Misc?.Speed ?? 0;
         public int CastingTimeIndex => Misc?.CastingTimeIndex ?? 0;
         public int ActiveIconFileDataID => Misc?.ActiveIconFileDataID ?? 0;
@@ -197,7 +198,7 @@ namespace SpellWork.Spell
 
         #region SpellProcsPerMinute
         public float BaseProcRate => ProcsPerMinute?.BaseProcRate ?? 0;
-        public byte ProcsPerMinuteFlags => ProcsPerMinute?.Flags ?? 0;
+        public int ProcsPerMinuteFlags => ProcsPerMinute?.Flags ?? 0;
         #endregion
 
         #region SpellInterrupts
@@ -282,16 +283,16 @@ namespace SpellWork.Spell
 
             #region Triggered by ...
             var addline = false;
-            if (DBC.DBC.SpellTriggerStore.ContainsKey(ID))
+            if (DBC.DBC.SpellTriggerStore.TryGetValue(ID, out var triggeringSpells))
             {
-                foreach (var procSpellId in DBC.DBC.SpellTriggerStore[ID])
+                foreach (var triggeringSpellId in triggeringSpells)
                 {
-                    var procname = "Spell Not Found";
-                    if (DBC.DBC.SpellInfoStore.ContainsKey(procSpellId))
-                        procname = DBC.DBC.SpellInfoStore[procSpellId].Name;
+                    var triggeringSpellName = "Spell Not Found";
+                    if (DBC.DBC.SpellInfoStore.TryGetValue(triggeringSpellId, out var triggeringSpell))
+                        triggeringSpellName = triggeringSpell.Name;
                     rtb.SetStyle(Color.Blue, FontStyle.Bold);
 
-                    rtb.AppendFormatLine("Triggered by spell: ({0}) {1}", procSpellId, procname);
+                    rtb.AppendFormatLine("Triggered by spell: ({0}) {1}", triggeringSpellId, triggeringSpellName);
                     rtb.SetDefaultStyle();
                     addline = true;
                 }
@@ -330,7 +331,7 @@ namespace SpellWork.Spell
             rtb.AppendFormatLine("PreventionType = {0} ({1})", PreventionType, (SpellPreventionType)PreventionType);
 
             #region Attributes
-            if (Misc != null && !Misc.Attributes.All(a => a == 0))
+            if (Misc != null && Misc.Attributes.Any(a => a != 0))
                 rtb.AppendLine(Separator);
 
             if (Attributes != 0)
@@ -365,6 +366,8 @@ namespace SpellWork.Spell
                 rtb.AppendFormatLine("AttributesEx14: 0x{0:X8} ({1})", AttributesEx14, (SpellAtributeEx14)AttributesEx14);
             if (AttributesEx15 != 0)
                 rtb.AppendFormatLine("AttributesEx15: 0x{0:X8} ({1})", AttributesEx15, (SpellAtributeEx15)AttributesEx15);
+            if (AttributesEx16 != 0)
+                rtb.AppendFormatLine("AttributesEx16: 0x{0:X8} ({1})", AttributesEx16, (SpellAtributeEx16)AttributesEx16);
 
             rtb.AppendLine(Separator);
             #endregion
@@ -495,7 +498,7 @@ namespace SpellWork.Spell
                 if (Scaling != null && level > Scaling.MaxScalingLevel)
                     level = Scaling.MaxScalingLevel;
 
-                if (((SpellAtributeEx13)AttributesEx13).HasFlag(SpellAtributeEx13.SPELL_ATTR13_UNK17))
+                if (((SpellAtributeEx13)AttributesEx13).HasFlag(SpellAtributeEx13.SPELL_ATTR13_CHECK_PHASE_ON_STRING_ID_RESULTS))
                     level *= 5;
 
                 if (Scaling != null && level > Scaling.MaxScalingLevel)
@@ -522,10 +525,18 @@ namespace SpellWork.Spell
             }
 
             if (DurationEntry != null)
-                rtb.AppendFormatLine("Duration {0}, {1}", DurationEntry.Duration, DurationEntry.MaxDuration);
+            {
+                rtb.AppendFormat("Duration {0}, {1}", DurationEntry.Duration, DurationEntry.MaxDuration);
+                rtb.AppendFormatIfNotNull(" + {0} per combo point", DurationEntry.DurationPerResource);
+                rtb.AppendLine();
+            }
 
             if (PvpDurationEntry != null)
-                rtb.AppendFormatLine("PvP Duration {0}, {1}", PvpDurationEntry.Duration, PvpDurationEntry.MaxDuration);
+            {
+                rtb.AppendFormat("PvP Duration {0}, {1}", PvpDurationEntry.Duration, PvpDurationEntry.MaxDuration);
+                rtb.AppendFormatIfNotNull(" + {0} per combo point", PvpDurationEntry.DurationPerResource);
+                rtb.AppendLine();
+            }
 
             foreach (var spellPower in Powers.OrderBy(p => p.OrderIndex))
             {
@@ -662,7 +673,7 @@ namespace SpellWork.Spell
                 var level = DBC.DBC.SelectedLevel - 1;
 
                 if (BaseLevel != 0
-                    && (AttributesEx11 & (uint)SpellAtributeEx11.SPELL_ATTR11_SCALES_WITH_ITEM_LEVEL) == 0
+                    && (AttributesEx11 & (uint)SpellAtributeEx11.SPELL_ATTR11_SCALES_WITH_CASTING_ITEMS_LEVEL) == 0
                     && (AttributesEx10 & (uint)SpellAtributeEx10.SPELL_ATTR10_USE_SPELL_BASE_LEVEL_FOR_SCALING) != 0)
                     level = (uint)BaseLevel;
 
@@ -678,11 +689,9 @@ namespace SpellWork.Spell
                     if (effect.ScalingClass == 0)
                         return 0.0f;
 
-                    if (Scaling.ScalesFromItemLevel != 0 || (AttributesEx11 & (uint)SpellAtributeEx11.SPELL_ATTR11_SCALES_WITH_ITEM_LEVEL) != 0)
+                    if ((AttributesEx11 & (uint)SpellAtributeEx11.SPELL_ATTR11_SCALES_WITH_CASTING_ITEMS_LEVEL) != 0)
                     {
                         var effectiveItemLevel = (int)DBC.DBC.SelectedItemLevel;
-                        if (Scaling.ScalesFromItemLevel != 0)
-                            effectiveItemLevel = (ushort)Scaling.ScalesFromItemLevel;
 
                         RandPropPointsEntry randPropPoints;
                         if (!DBC.DBC.RandPropPoints.TryGetValue(effectiveItemLevel, out randPropPoints))
@@ -913,6 +922,12 @@ namespace SpellWork.Spell
                 case AuraType.SPELL_AURA_ADD_FLAT_MODIFIER_BY_SPELL_LABEL:
                     rtb.Append((SpellModOp)misc);
                     break;
+                case AuraType.SPELL_AURA_ADD_FLAT_PVP_MODIFIER:
+                case AuraType.SPELL_AURA_ADD_PCT_PVP_MODIFIER:
+                case AuraType.SPELL_AURA_ADD_PCT_PVP_MODIFIER_BY_SPELL_LABEL:
+                case AuraType.SPELL_AURA_ADD_FLAT_PVP_MODIFIER_BY_SPELL_LABEL:
+                    rtb.Append((SpellPvpModifier)misc);
+                    break;
                 // TODO: more case
                 default:
                     rtb.Append(misc);
@@ -925,7 +940,7 @@ namespace SpellWork.Spell
             switch (aura)
             {
                 case AuraType.SPELL_AURA_OVERRIDE_SPELLS:
-                    if (!DBC.DBC.OverrideSpellData.ContainsKey(misc))
+                    if (!DBC.DBC.OverrideSpellData.TryGetValue(misc, out var @override))
                     {
                         rtb.SetStyle(Color.Red, FontStyle.Bold);
                         rtb.AppendFormatLine("Cannot find key {0} in OverrideSpellData.dbc", (uint)misc);
@@ -934,7 +949,6 @@ namespace SpellWork.Spell
                     {
                         rtb.AppendLine();
                         rtb.SetStyle(Color.DarkRed, FontStyle.Bold);
-                        var @override = DBC.DBC.OverrideSpellData[misc];
                         for (var i = 0; i < 10; ++i)
                         {
                             if (@override.Spells[i] == 0)
@@ -950,7 +964,7 @@ namespace SpellWork.Spell
                 case AuraType.SPELL_AURA_SCREEN_EFFECT:
                     rtb.SetStyle(Color.DarkBlue, FontStyle.Bold);
                     rtb.AppendFormatLine("ScreenEffect: {0}",
-                        DBC.DBC.ScreenEffect.ContainsKey(misc) ? DBC.DBC.ScreenEffect[misc].Name : "?????");
+                        DBC.DBC.ScreenEffect.TryGetValue(misc, out var screenEffect) ? screenEffect.Name : "?????");
                     break;
             }
         }

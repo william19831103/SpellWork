@@ -6,9 +6,9 @@ namespace SpellWork.DBC.Structures
     {
         [Index(true)]
         public uint ID;
-        [Cardinality(16)]
-        public int[] Attributes = new int[16];
-        public byte DifficultyID;
+        [Cardinality(17)]
+        public int[] Attributes = new int[17];
+        public short DifficultyID;
         public ushort CastingTimeIndex;
         public ushort DurationIndex;
         public ushort PvPDurationIndex;

@@ -89,13 +89,13 @@ namespace SpellWork.Database
             if (!Connected)
                 return;
 
-            var spellsQuery =
-                "SELECT Id, DifficultyID, CategoryId, Dispel, Mechanic, Attributes, AttributesEx, AttributesEx2, AttributesEx3, " +
+            var spellsQuery = "SELECT Id, DifficultyID, CategoryId, Dispel, Mechanic, Attributes, AttributesEx, AttributesEx2, AttributesEx3, " +
                 "AttributesEx4, AttributesEx5, AttributesEx6, AttributesEx7, AttributesEx8, AttributesEx9, AttributesEx10, AttributesEx11, AttributesEx12, AttributesEx13, " +
-                "AttributesEx14, AttributesEx15, Stances, StancesNot, Targets, TargetCreatureType, RequiresSpellFocus, FacingCasterFlags, CasterAuraState, TargetAuraState, " +
-                "ExcludeCasterAuraState, ExcludeTargetAuraState, CasterAuraSpell, TargetAuraSpell, ExcludeCasterAuraSpell, ExcludeTargetAuraSpell, CastingTimeIndex, " +
+                "AttributesEx14, AttributesEx15, AttributesEx16, Stances, StancesNot, Targets, TargetCreatureType, RequiresSpellFocus, FacingCasterFlags, " +
+                "CasterAuraState, TargetAuraState, ExcludeCasterAuraState, ExcludeTargetAuraState, CasterAuraSpell, TargetAuraSpell, ExcludeCasterAuraSpell, ExcludeTargetAuraSpell, " +
+                "CasterAuraType, TargetAuraType, ExcludeCasterAuraType, ExcludeTargetAuraType, CastingTimeIndex, " +
                 "RecoveryTime, CategoryRecoveryTime, StartRecoveryCategory, StartRecoveryTime, InterruptFlags, AuraInterruptFlags1, AuraInterruptFlags2, " +
-                "ChannelInterruptFlags1, ChannelInterruptFlags2, ProcFlags, ProcChance, ProcCharges, ProcCooldown, ProcBasePPM, MaxLevel, BaseLevel, SpellLevel, " +
+                "ChannelInterruptFlags1, ChannelInterruptFlags2, ProcFlags, ProcFlags2, ProcChance, ProcCharges, ProcCooldown, ProcBasePPM, MaxLevel, BaseLevel, SpellLevel, " +
                 "DurationIndex, RangeIndex, Speed, LaunchDelay, StackAmount, EquippedItemClass, EquippedItemSubClassMask, EquippedItemInventoryTypeMask, ContentTuningId, " +
                 "SpellName, ConeAngle, ConeWidth, MaxTargetLevel, MaxAffectedTargets, SpellFamilyName, SpellFamilyFlags1, SpellFamilyFlags2, SpellFamilyFlags3, SpellFamilyFlags4, " +
                 "DmgClass, PreventionType, AreaGroupId, SchoolMask, ChargeCategoryId FROM serverside_spell";
@@ -114,7 +114,7 @@ namespace SpellWork.Database
                                 continue;
 
                             var spellId = reader.GetUInt32(0);
-                            var spellInfo = new SpellInfo(reader.GetString(62) + " (SERVERSIDE)",
+                            var spellInfo = new SpellInfo(reader.GetString(68) + " (SERVERSIDE)",
                                 new SpellEntry()
                                 {
                                     ID = spellId
@@ -122,89 +122,93 @@ namespace SpellWork.Database
 
                             spellInfo.AuraOptions = new SpellAuraOptionsEntry()
                             {
-                                CumulativeAura = (ushort)reader.GetUInt32(57),
-                                ProcCategoryRecovery = (int)reader.GetUInt32(48),
-                                ProcChance = (byte)reader.GetUInt32(46),
-                                ProcCharges = (int)reader.GetUInt32(47),
-                                ProcTypeMask = new[] { (int)reader.GetUInt32(45), 0 }
+                                CumulativeAura = (ushort)reader.GetUInt32(63),
+                                ProcCategoryRecovery = (int)reader.GetUInt32(54),
+                                ProcChance = (byte)reader.GetUInt32(52),
+                                ProcCharges = (int)reader.GetUInt32(53),
+                                ProcTypeMask = new[] { (int)reader.GetUInt32(50), (int)reader.GetUInt32(51) }
                             };
 
                             spellInfo.AuraRestrictions = new SpellAuraRestrictionsEntry()
                             {
-                                CasterAuraState = (byte)reader.GetUInt32(27),
-                                TargetAuraState = (byte)reader.GetUInt32(28),
-                                ExcludeCasterAuraState = (byte)reader.GetUInt32(29),
-                                ExcludeTargetAuraState = (byte)reader.GetUInt32(30),
-                                CasterAuraSpell = (int)reader.GetUInt32(31),
-                                TargetAuraSpell = (int)reader.GetUInt32(32),
-                                ExcludeCasterAuraSpell = (int)reader.GetUInt32(33),
-                                ExcludeTargetAuraSpell = (int)reader.GetUInt32(34)
+                                CasterAuraState = (byte)reader.GetUInt32(28),
+                                TargetAuraState = (byte)reader.GetUInt32(29),
+                                ExcludeCasterAuraState = (byte)reader.GetUInt32(30),
+                                ExcludeTargetAuraState = (byte)reader.GetUInt32(31),
+                                CasterAuraSpell = (int)reader.GetUInt32(32),
+                                TargetAuraSpell = (int)reader.GetUInt32(33),
+                                ExcludeCasterAuraSpell = (int)reader.GetUInt32(34),
+                                ExcludeTargetAuraSpell = (int)reader.GetUInt32(35),
+                                CasterAuraType = (short)reader.GetUInt32(36),
+                                TargetAuraType = (short)reader.GetUInt32(37),
+                                ExcludeCasterAuraType = (short)reader.GetUInt32(38),
+                                ExcludeTargetAuraType = (short)reader.GetUInt32(39)
                             };
 
                             spellInfo.CastingRequirements = new SpellCastingRequirementsEntry()
                             {
-                                FacingCasterFlags = (byte)reader.GetUInt32(26),
-                                RequiredAreasID = (ushort)reader.GetInt32(74),
-                                RequiresSpellFocus = (ushort)reader.GetUInt32(25)
+                                FacingCasterFlags = (byte)reader.GetUInt32(27),
+                                RequiredAreasID = (ushort)reader.GetInt32(80),
+                                RequiresSpellFocus = (ushort)reader.GetUInt32(26)
                             };
 
                             spellInfo.Categories = new SpellCategoriesEntry()
                             {
                                 Category = (short)reader.GetUInt32(2),
-                                DefenseType = (sbyte)reader.GetUInt32(72),
+                                DefenseType = (sbyte)reader.GetUInt32(78),
                                 DispelType = (sbyte)reader.GetUInt32(3),
                                 Mechanic = (sbyte)reader.GetUInt32(4),
-                                PreventionType = (sbyte)reader.GetUInt32(73),
-                                StartRecoveryCategory = (short)reader.GetUInt32(38),
-                                ChargeCategory = (short)reader.GetUInt32(76)
+                                PreventionType = (sbyte)reader.GetUInt32(79),
+                                StartRecoveryCategory = (short)reader.GetUInt32(43),
+                                ChargeCategory = (short)reader.GetUInt32(82)
                             };
 
                             spellInfo.ClassOptions = new SpellClassOptionsEntry()
                             {
-                                SpellClassSet = (byte)reader.GetUInt32(67),
+                                SpellClassSet = (byte)reader.GetUInt32(73),
                                 SpellClassMask = new[]
                                 {
-                                    (int)reader.GetUInt32(68),
-                                    (int)reader.GetUInt32(69),
-                                    (int)reader.GetUInt32(70),
-                                    (int)reader.GetUInt32(71)
+                                    (int)reader.GetUInt32(74),
+                                    (int)reader.GetUInt32(75),
+                                    (int)reader.GetUInt32(76),
+                                    (int)reader.GetUInt32(77)
                                 }
                             };
 
                             spellInfo.Cooldowns = new SpellCooldownsEntry()
                             {
-                                CategoryRecoveryTime = (int)reader.GetUInt32(37),
-                                RecoveryTime = (int)reader.GetUInt32(36),
-                                StartRecoveryTime = (int)reader.GetUInt32(39)
+                                CategoryRecoveryTime = (int)reader.GetUInt32(42),
+                                RecoveryTime = (int)reader.GetUInt32(41),
+                                StartRecoveryTime = (int)reader.GetUInt32(44)
                             };
 
                             spellInfo.EquippedItems = new SpellEquippedItemsEntry()
                             {
-                                EquippedItemClass = reader.GetInt32(58),
-                                EquippedItemInvTypes = reader.GetInt32(60),
-                                EquippedItemSubclass = reader.GetInt32(59)
+                                EquippedItemClass = reader.GetInt32(64),
+                                EquippedItemInvTypes = reader.GetInt32(66),
+                                EquippedItemSubclass = reader.GetInt32(65)
                             };
 
                             spellInfo.Interrupts = new SpellInterruptsEntry()
                             {
-                                InterruptFlags = (short)reader.GetUInt32(40),
+                                InterruptFlags = (short)reader.GetUInt32(45),
                                 AuraInterruptFlags = new[]
                                 {
-                                    (int)reader.GetUInt32(41),
-                                    (int)reader.GetUInt32(42)
+                                    (int)reader.GetUInt32(46),
+                                    (int)reader.GetUInt32(47)
                                 },
                                 ChannelInterruptFlags = new[]
                                 {
-                                    (int)reader.GetUInt32(43),
-                                    (int)reader.GetUInt32(44)
+                                    (int)reader.GetUInt32(48),
+                                    (int)reader.GetUInt32(49)
                                 }
                             };
 
                             spellInfo.Levels = new SpellLevelsEntry()
                             {
-                                MaxLevel = (short)reader.GetUInt32(50),
-                                BaseLevel = (int)reader.GetUInt32(51),
-                                SpellLevel = (int)reader.GetUInt32(52)
+                                MaxLevel = (short)reader.GetUInt32(56),
+                                BaseLevel = (int)reader.GetUInt32(57),
+                                SpellLevel = (int)reader.GetUInt32(58)
                             };
 
                             spellInfo.Misc = new SpellMiscEntry()
@@ -226,44 +230,45 @@ namespace SpellWork.Database
                                     (int)reader.GetUInt32(17),
                                     (int)reader.GetUInt32(18),
                                     (int)reader.GetUInt32(19),
-                                    (int)reader.GetUInt32(20)
+                                    (int)reader.GetUInt32(20),
+                                    (int)reader.GetUInt32(21)
                                 },
-                                CastingTimeIndex = (ushort)reader.GetUInt32(35),
-                                DurationIndex = (ushort)reader.GetUInt32(53),
-                                RangeIndex = (ushort)reader.GetUInt32(54),
-                                SchoolMask = (byte)reader.GetUInt32(75),
-                                Speed = reader.GetFloat(55),
-                                LaunchDelay = reader.GetFloat(56),
-                                ContentTuningID = (int)reader.GetUInt32(61)
+                                CastingTimeIndex = (ushort)reader.GetUInt32(40),
+                                DurationIndex = (ushort)reader.GetUInt32(59),
+                                RangeIndex = (ushort)reader.GetUInt32(60),
+                                SchoolMask = (byte)reader.GetUInt32(81),
+                                Speed = reader.GetFloat(61),
+                                LaunchDelay = reader.GetFloat(62),
+                                ContentTuningID = (int)reader.GetUInt32(67)
                             };
 
                             spellInfo.ProcsPerMinute = new SpellProcsPerMinuteEntry()
                             {
-                                BaseProcRate = reader.GetFloat(49)
+                                BaseProcRate = reader.GetFloat(55)
                             };
 
                             spellInfo.Shapeshift = new SpellShapeshiftEntry()
                             {
                                 ShapeshiftMask = new[]
                                 {
-                                    (int)(reader.GetUInt64(21) & 0xFFFFFFFF),
-                                    (int)(reader.GetUInt64(21) >> 32)
+                                    (int)(reader.GetUInt64(22) & 0xFFFFFFFF),
+                                    (int)(reader.GetUInt64(22) >> 32)
                                 },
                                 ShapeshiftExclude = new[]
                                 {
-                                    (int)(reader.GetUInt64(22) & 0xFFFFFFFF),
-                                    (int)(reader.GetUInt64(22) >> 32)
+                                    (int)(reader.GetUInt64(23) & 0xFFFFFFFF),
+                                    (int)(reader.GetUInt64(23) >> 32)
                                 },
                             };
 
                             spellInfo.TargetRestrictions = new SpellTargetRestrictionsEntry()
                             {
-                                ConeDegrees = reader.GetFloat(63),
-                                MaxTargets = (byte)reader.GetUInt32(66),
-                                MaxTargetLevel = reader.GetUInt32(65),
-                                TargetCreatureType = (short)reader.GetUInt32(24),
-                                Targets = (int)reader.GetUInt32(23),
-                                Width = reader.GetFloat(64)
+                                ConeDegrees = reader.GetFloat(69),
+                                MaxTargets = (byte)reader.GetUInt32(72),
+                                MaxTargetLevel = reader.GetUInt32(71),
+                                TargetCreatureType = (short)reader.GetUInt32(25),
+                                Targets = (int)reader.GetUInt32(24),
+                                Width = reader.GetFloat(70)
                             };
 
                             if (DBC.DBC.SpellDuration.TryGetValue(spellInfo.Misc.DurationIndex, out var duration))

@@ -9,7 +9,7 @@ namespace SpellWork.DBC.Structures
         public string AbilityAllVerb;
         [Index(false)]
         public uint ID;
-        public short SkillLine;
+        public ushort SkillLine;
         public int Spell;
         public short MinSkillLineRank;
         public int ClassMask;
