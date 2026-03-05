@@ -33,7 +33,7 @@ namespace SpellWork.Spell
         [IgnoreAutopopulatedFilterValue]
         public List<ItemEffectEntry> ItemEffects { get; } = new List<ItemEffectEntry>();
         [IgnoreAutopopulatedFilterValue]
-        public ISet<uint> Labels { get; } = new HashSet<uint>();
+        public ISet<uint> Labels { get; } = new SortedSet<uint>();
         [IgnoreAutopopulatedFilterValue]
         public SpellLevelsEntry Levels { get; set; }
         [IgnoreAutopopulatedFilterValue]
@@ -68,6 +68,9 @@ namespace SpellWork.Spell
         // Helper
         [IgnoreAutopopulatedFilterValue]
         public readonly List<SpellEffectInfo> SpellEffectInfoStore = new List<SpellEffectInfo>();
+
+        [IgnoreAutopopulatedFilterValue]
+        private static readonly List<uint> LabelModifiedByBlacklist = [16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 292];
 
         #region Spell
         public int ID { get; }
@@ -307,20 +310,41 @@ namespace SpellWork.Spell
                     (SpellFamilyNames)SpellFamilyName, SpellFamilyName,
                     SpellClassMask[0], SpellClassMask[1], SpellClassMask[2], SpellClassMask[3]);
 
+            if (Labels.Count > 0)
+                rtb.AppendFormatLine("Labels: {0}", string.Join(", ", Labels));
+
             #region Modified by ...
-            foreach (var eff in
-                    from s in DBC.DBC.SpellInfoStore.Values
-                    where s.SpellFamilyName == SpellFamilyName
-                    from eff in s.SpellEffectInfoStore
-                    where eff != null && ((eff.SpellEffect.EffectSpellClassMask[0] & SpellClassMask[0]) != 0 ||
-                          (eff.SpellEffect.EffectSpellClassMask[1] & SpellClassMask[1]) != 0 ||
-                          (eff.SpellEffect.EffectSpellClassMask[2] & SpellClassMask[2]) != 0 ||
-                          (eff.SpellEffect.EffectSpellClassMask[3] & SpellClassMask[3]) != 0)
-                    select eff)
+            if (DBC.DBC.SpellModifyStoreByFamily.TryGetValue(SpellFamilyName, out var spellByFamily))
             {
-                rtb.SetStyle(Color.Blue, FontStyle.Bold);
-                rtb.AppendFormatLine("Modified by {0} ({1})",
-                    DBC.DBC.SpellInfoStore[eff.SpellID].Name, eff.SpellID);
+                foreach (var modifiedBy in spellByFamily
+                             .Where(s => s.SpellEffectInfoStore
+                                 .Any(t => (t.SpellEffect.EffectSpellClassMask[0] & SpellClassMask[0]) != 0 ||
+                                           (t.SpellEffect.EffectSpellClassMask[1] & SpellClassMask[1]) != 0 ||
+                                           (t.SpellEffect.EffectSpellClassMask[2] & SpellClassMask[2]) != 0 ||
+                                           (t.SpellEffect.EffectSpellClassMask[3] & SpellClassMask[3]) != 0)))
+                {
+                    rtb.SetStyle(Color.Blue, FontStyle.Bold);
+                    rtb.AppendFormatLine("Modified by {0} ({1})", modifiedBy.Name, modifiedBy.ID);
+                }
+            }
+            foreach (var label in Labels)
+            {
+                if (LabelModifiedByBlacklist.Contains(label))
+                    continue;
+
+                if (!DBC.DBC.SpellModifyStoreByLabel.TryGetValue(label, out var spellsByLabel))
+                    continue;
+
+                foreach (var modifiedBy in spellsByLabel.Take(25))
+                {
+                    rtb.SetStyle(Color.DarkViolet, FontStyle.Bold);
+                    rtb.AppendFormatLine("Modified by {0} ({1})", modifiedBy.Name, modifiedBy.ID);
+                }
+                if (spellsByLabel.Count > 25)
+                {
+                    rtb.SetStyle(Color.DarkViolet, FontStyle.Bold);
+                    rtb.AppendFormatLine("Modified by ... ({0} more)", spellsByLabel.Count - 25);
+                }
             }
             #endregion
 
@@ -816,7 +840,7 @@ namespace SpellWork.Spell
 
                 var query = from spell in DBC.DBC.SpellInfoStore.Values
                             where (spell.SpellFamilyName == SpellFamilyName && spell.SpellClassMask.ContainsElement(classMask))
-                                || (label != null && spell.Labels.Contains(label.Value))
+                                || (label != null && !LabelModifiedByBlacklist.Contains(label.Value) && spell.Labels.Contains(label.Value))
                             join sk in DBC.DBC.SkillLineAbility.Values on spell.ID equals sk.Spell into temp
                             from skill in temp.DefaultIfEmpty(new SkillLineAbilityEntry())
                             select new
@@ -1063,7 +1087,7 @@ namespace SpellWork.Spell
             return SpellEffectInfoStore.Any(eff => eff.SpellEffect != null && eff.SpellEffect.ImplicitTarget[1] == (uint)target);
         }
 
-        private uint? GetSpellLabelAffectingOtherSpells(SpellEffectEntry effect)
+        public static uint? GetSpellLabelAffectingOtherSpells(SpellEffectEntry effect)
         {
             switch ((AuraType)effect.EffectAura)
             {
@@ -1071,12 +1095,29 @@ namespace SpellWork.Spell
                 case AuraType.SPELL_AURA_SUPPRESS_ITEM_PASSIVE_EFFECT_BY_SPELL_LABEL:
                 case AuraType.SPELL_AURA_CAST_WHILE_WALKING_BY_SPELL_LABEL:
                 case AuraType.SPELL_AURA_MOD_AURA_TIME_RATE_BY_SPELL_LABEL:
+                case AuraType.SPELL_AURA_MOD_DAMAGE_TAKEN_BY_LABEL:
+                case AuraType.SPELL_AURA_MOD_SPELL_DAMAGE_FROM_CASTER_BY_LABEL:
                     return (uint)effect.EffectMiscValue[0];
                 case AuraType.SPELL_AURA_ADD_PCT_MODIFIER_BY_SPELL_LABEL:
                 case AuraType.SPELL_AURA_ADD_FLAT_MODIFIER_BY_SPELL_LABEL:
+                case AuraType.SPELL_AURA_ADD_FLAT_PVP_MODIFIER_BY_SPELL_LABEL:
+                case AuraType.SPELL_AURA_ADD_PCT_PVP_MODIFIER_BY_SPELL_LABEL:
                     return (uint)effect.EffectMiscValue[1];
             }
             return null;
+        }
+
+        public class Comparer : IComparer<SpellInfo>
+        {
+            public static readonly IComparer<SpellInfo> Instance = new Comparer();
+
+            public int Compare(SpellInfo x, SpellInfo y)
+            {
+                if (ReferenceEquals(x, y)) return 0;
+                if (y is null) return 1;
+                if (x is null) return -1;
+                return x.ID.CompareTo(y.ID);
+            }
         }
     }
 

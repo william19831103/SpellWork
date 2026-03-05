@@ -47,6 +47,9 @@ namespace SpellWork.DBC
         public static readonly IDictionary<int, SpellInfo> SpellInfoStore = new ConcurrentDictionary<int, SpellInfo>();
         public static readonly IDictionary<int, ISet<int>> SpellTriggerStore = new Dictionary<int, ISet<int>>();
 
+        public static readonly IDictionary<uint, ISet<SpellInfo>> SpellModifyStoreByFamily = new Dictionary<uint, ISet<SpellInfo>>();
+        public static readonly IDictionary<uint, ISet<SpellInfo>> SpellModifyStoreByLabel = new Dictionary<uint, ISet<SpellInfo>>();
+
         private enum Progress
         {
             Hotfix = 0,
@@ -151,13 +154,22 @@ namespace SpellWork.DBC
                         spellInfo.SpellEffectInfoStore.Add(new SpellEffectInfo(effect)); // Helper
 
                         var triggerId = effect.EffectTriggerSpell;
-                        if (triggerId == 0)
-                            continue;
+                        if (triggerId != 0)
+                        {
+                            if (SpellTriggerStore.TryGetValue(triggerId, out var trigger))
+                                trigger.Add(effect.SpellID);
+                            else
+                                SpellTriggerStore.Add(triggerId, new SortedSet<int> { effect.SpellID });
+                        }
 
-                        if (SpellTriggerStore.TryGetValue(triggerId, out var trigger))
-                            trigger.Add(effect.SpellID);
-                        else
-                            SpellTriggerStore.Add(triggerId, new SortedSet<int> { effect.SpellID });
+                        var spellLabelAffectingOtherSpells = SpellInfo.GetSpellLabelAffectingOtherSpells(effect);
+                        if (spellLabelAffectingOtherSpells.HasValue)
+                        {
+                            if (SpellModifyStoreByLabel.TryGetValue(spellLabelAffectingOtherSpells.Value, out var spells))
+                                spells.Add(spellInfo);
+                            else
+                                SpellModifyStoreByLabel.Add(spellLabelAffectingOtherSpells.Value, new SortedSet<SpellInfo>(SpellInfo.Comparer.Instance){ spellInfo });
+                        }
                     }
                     progressHandler.IncrementStepsProgress();
                 },
@@ -304,6 +316,11 @@ namespace SpellWork.DBC
                         }
 
                         spellInfo.ClassOptions = classOptions;
+
+                        if (SpellModifyStoreByFamily.TryGetValue(classOptions.SpellClassSet, out var spells))
+                            spells.Add(spellInfo);
+                        else
+                            SpellModifyStoreByFamily.Add(classOptions.SpellClassSet, new SortedSet<SpellInfo>(SpellInfo.Comparer.Instance){ spellInfo });
                     }
                     progressHandler.IncrementStepsProgress();
                 },
