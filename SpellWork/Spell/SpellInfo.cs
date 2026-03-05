@@ -304,7 +304,7 @@ namespace SpellWork.Spell
                 rtb.AppendFormatLine(Separator);
             #endregion
 
-            rtb.AppendFormatLine($"Category = { Category }, SpellIconFileDataID = { SpellIconFileDataID }, ActiveIconFileDataID = { ActiveIconFileDataID }, SpellVisualID = { SpellVisualID }");
+            rtb.AppendLine($"Category = { Category }, SpellIconFileDataID = { SpellIconFileDataID }, ActiveIconFileDataID = { ActiveIconFileDataID }, SpellVisualID = { SpellVisualID }");
 
             rtb.AppendFormatLine("Family {0} ({1}), flag [0] 0x{2:X8} [1] 0x{3:X8} [2] 0x{4:X8} [3] 0x{5:X8}",
                     (SpellFamilyNames)SpellFamilyName, SpellFamilyName,
@@ -498,7 +498,10 @@ namespace SpellWork.Spell
             }
 
             rtb.AppendLine();
-            rtb.AppendFormatLine("Category = {0}", Category);
+            rtb.AppendFormat("Category = {0}", Category);
+            if (DBC.DBC.SpellCategory.TryGetValue(Category, out var category))
+                rtb.AppendFormat(" \"{0}\"", category.Name);
+            rtb.AppendLine();
             rtb.AppendFormatLine("DispelType = {0} ({1})", Dispel, (DispelType)Dispel);
             rtb.AppendFormatLine("Mechanic = {0} ({1})", Mechanic, (Mechanics)Mechanic);
 
