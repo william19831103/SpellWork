@@ -57,9 +57,9 @@
             _rtSpellInfo = new System.Windows.Forms.RichTextBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
             _lvSpellList = new System.Windows.Forms.ListView();
+            chPadding = new System.Windows.Forms.ColumnHeader();
             chSpellID = new System.Windows.Forms.ColumnHeader();
             chSpellName = new System.Windows.Forms.ColumnHeader();
-            chMiscID = new System.Windows.Forms.ColumnHeader();
             _gSpellFilter = new System.Windows.Forms.GroupBox();
             _gbAdvansedSearch = new System.Windows.Forms.GroupBox();
             _cbAdvancedFilter2CompareType = new System.Windows.Forms.ComboBox();
@@ -556,14 +556,14 @@
             // 
             _lvSpellList.AllowColumnReorder = true;
             _lvSpellList.Anchor = System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right;
-            _lvSpellList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { chSpellID, chSpellName, chMiscID });
+            _lvSpellList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] { chPadding, chSpellID, chSpellName });
             _lvSpellList.FullRowSelect = true;
             _lvSpellList.GridLines = true;
-            _lvSpellList.Location = new System.Drawing.Point(7, 405);
+            _lvSpellList.Location = new System.Drawing.Point(4, 405);
             _lvSpellList.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             _lvSpellList.MultiSelect = false;
             _lvSpellList.Name = "_lvSpellList";
-            _lvSpellList.Size = new System.Drawing.Size(398, 409);
+            _lvSpellList.Size = new System.Drawing.Size(400, 409);
             _lvSpellList.TabIndex = 7;
             _lvSpellList.UseCompatibleStateImageBehavior = false;
             _lvSpellList.View = System.Windows.Forms.View.Details;
@@ -571,20 +571,21 @@
             _lvSpellList.RetrieveVirtualItem += LvSpellListRetrieveVirtualItem;
             _lvSpellList.SelectedIndexChanged += LvSpellListSelectedIndexChanged;
             // 
+            // chPadding
+            // 
+            chPadding.Text = "";
+            chPadding.Width = 0;
+            // 
             // chSpellID
             // 
             chSpellID.Text = "ID";
-            chSpellID.Width = 48;
+            chSpellID.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            chSpellID.Width = 64;
             // 
             // chSpellName
             // 
             chSpellName.Text = "Name";
-            chSpellName.Width = 250;
-            // 
-            // chMiscID
-            // 
-            chMiscID.Text = "MiscID";
-            chMiscID.Width = 64;
+            chSpellName.Width = 316;
             // 
             // _gSpellFilter
             // 
@@ -2200,9 +2201,9 @@
         private System.Windows.Forms.RichTextBox _rtSpellInfo;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.ListView _lvSpellList;
+        private System.Windows.Forms.ColumnHeader chPadding;
         private System.Windows.Forms.ColumnHeader chSpellID;
         private System.Windows.Forms.ColumnHeader chSpellName;
-        private System.Windows.Forms.ColumnHeader chMiscID;
         private System.Windows.Forms.GroupBox _gSpellFilter;
         private System.Windows.Forms.GroupBox _gbAdvansedSearch;
         private System.Windows.Forms.ComboBox _cbAdvancedFilter2CompareType;

@@ -726,14 +726,12 @@ namespace SpellWork.Forms
 
         private void LvSpellListRetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            e.Item =
-                new ListViewItem(new[] { _spellList[e.ItemIndex].ID.ToString(), _spellList[e.ItemIndex].NameAndSubname, (_spellList[e.ItemIndex].Misc?.ID ?? 0).ToString() });
+            e.Item = new ListViewItem([string.Empty, _spellList[e.ItemIndex].ID.ToString(), _spellList[e.ItemIndex].NameAndSubname]);
         }
 
         private void LvProcSpellListRetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            e.Item =
-                new ListViewItem(new[] { _spellProcList[e.ItemIndex].ID.ToString(), _spellProcList[e.ItemIndex].NameAndSubname });
+            e.Item = new ListViewItem([_spellProcList[e.ItemIndex].ID.ToString(), _spellProcList[e.ItemIndex].NameAndSubname]);
         }
 
         private void LvSqlDataRetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)

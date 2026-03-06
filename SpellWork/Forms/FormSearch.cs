@@ -86,7 +86,7 @@ namespace SpellWork.Forms
                           select spell).ToList();
 
             _lvSpellList.VirtualListSize = _spellList.Count();
-            groupBox2.Text = @"Spell Filter " + @"count: " + _spellList.Count();
+            groupBox2.Text = @"Spell Filter count: " + _spellList.Count();
 
             if (_lvSpellList.SelectedIndices.Count > 0)
                 _lvSpellList.Items[_lvSpellList.SelectedIndices[0]].Selected = false;
@@ -115,7 +115,7 @@ namespace SpellWork.Forms
 
         private void SpellListRetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
         {
-            e.Item = new ListViewItem(new[] { _spellList[e.ItemIndex].ID.ToString(), _spellList[e.ItemIndex].NameAndSubname, (_spellList[e.ItemIndex].Misc?.ID ?? 0).ToString() });
+            e.Item = new ListViewItem([string.Empty, _spellList[e.ItemIndex].ID.ToString(), _spellList[e.ItemIndex].NameAndSubname]);
         }
 
         private void ButtonSearch_Click(object sender, EventArgs e)
