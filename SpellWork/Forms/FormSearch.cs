@@ -40,11 +40,16 @@ namespace SpellWork.Forms
             _spellList = (from spell in DBC.DBC.SpellInfoStore.Values
                           where
                               ((id == 0 || spell.ID == id) && (ic == 0 || spell.SpellIconFileDataID == ic) &&
-                               (at == 0 || (spell.Attributes & at) != 0 || (spell.AttributesEx & at) != 0 ||
-                                (spell.AttributesEx2 & at) != 0 || (spell.AttributesEx3 & at) != 0 ||
-                                (spell.AttributesEx4 & at) != 0 || (spell.AttributesEx5 & at) != 0 ||
-                                (spell.AttributesEx6 & at) != 0 || (spell.AttributesEx7 & at) != 0 || (spell.AttributesEx8 & at) != 0)) &&
-                              (id != 0 || ic != 0 && at != 0) || spell.Name.ContainsText(name)
+                               (at == 0 || ((uint)spell.Attributes & at) != 0 || ((uint)spell.AttributesEx & at) != 0 ||
+                                ((uint)spell.AttributesEx2 & at) != 0 || ((uint)spell.AttributesEx3 & at) != 0 ||
+                                ((uint)spell.AttributesEx4 & at) != 0 || ((uint)spell.AttributesEx5 & at) != 0 ||
+                                ((uint)spell.AttributesEx6 & at) != 0 || ((uint)spell.AttributesEx7 & at) != 0 ||
+                                ((uint)spell.AttributesEx8 & at) != 0 || ((uint)spell.AttributesEx9 & at) != 0 ||
+                                ((uint)spell.AttributesEx10 & at) != 0 || ((uint)spell.AttributesEx11 & at) != 0 ||
+                                ((uint)spell.AttributesEx12 & at) != 0 || ((uint)spell.AttributesEx13 & at) != 0 ||
+                                ((uint)spell.AttributesEx14 & at) != 0 || ((uint)spell.AttributesEx15 & at) != 0 ||
+                                ((uint)spell.AttributesEx16 & at) != 0)) &&
+                              ((id != 0 || ic != 0 && at != 0) || spell.Name.ContainsText(name))
                           orderby spell.ID
                           select spell).ToList();
 

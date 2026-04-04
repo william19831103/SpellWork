@@ -2260,7 +2260,7 @@ namespace SpellWork.Spell
     };
 
     [Flags]
-    enum SpellAtributeEx11 : uint
+    public enum SpellAtributeEx11 : uint
     {
         SPELL_ATTR11_LOCK_CASTER_MOVEMENT_AND_FACING_WHILE_CASTING      = 0x00000001, //  0
         SPELL_ATTR11_DONT_CANCEL_WHEN_ALL_EFFECTS_ARE_DISABLED          = 0x00000002, //  1
@@ -2297,7 +2297,7 @@ namespace SpellWork.Spell
     };
 
     [Flags]
-    enum SpellAtributeEx12 : uint
+    public enum SpellAtributeEx12 : uint
     {
         SPELL_ATTR12_ENABLE_PROCS_FROM_SUPPRESSED_CASTER_PROCS          = 0x00000001, //  0
         SPELL_ATTR12_CAN_PROC_FROM_SUPPRESSED_CASTER_PROCS              = 0x00000002, //  1
@@ -2334,7 +2334,7 @@ namespace SpellWork.Spell
     };
 
     [Flags]
-    enum SpellAtributeEx13 : uint
+    public enum SpellAtributeEx13 : uint
     {
         SPELL_ATTR13_ALLOW_CLASS_ABILITY_PROCS                          = 0x00000001, //  0
         SPELL_ATTR13_ALLOW_WHILE_FEARED_BY_FEAR_MECHANIC                = 0x00000002, //  1
@@ -2371,7 +2371,7 @@ namespace SpellWork.Spell
     };
 
     [Flags]
-    enum SpellAtributeEx14 : uint
+    public enum SpellAtributeEx14 : uint
     {
         SPELL_ATTR14_PREVENT_JUMPING_DURING_PRECAST                     = 0x00000001, // TITLE Unknown attribute 0@Attr14
         SPELL_ATTR14_REAGENT_COST_CONSUMES_CHARGES                      = 0x00000002, // TITLE Reagent Consume Charges DESCRIPTION Consumes item charges for reagent costs instead of whole items
@@ -2408,7 +2408,7 @@ namespace SpellWork.Spell
     };
 
     [Flags]
-    enum SpellAtributeEx15 : uint
+    public enum SpellAtributeEx15 : uint
     {
         SPELL_ATTR15_UNK0                                               = 0x00000001, // TITLE Unknown attribute 0@Attr15
         SPELL_ATTR15_UNK1                                               = 0x00000002, // TITLE Unknown attribute 1@Attr15
@@ -2445,7 +2445,7 @@ namespace SpellWork.Spell
     };
 
     [Flags]
-    enum SpellAtributeEx16 : uint
+    public enum SpellAtributeEx16 : uint
     {
         SPELL_ATTR16_UNK0                                               = 0x00000001, // TITLE Unknown attribute 0@Attr16
         SPELL_ATTR16_UNK1                                               = 0x00000002, // TITLE Unknown attribute 1@Attr16
