@@ -39,6 +39,7 @@ namespace SpellWork.DBC
         public static Storage<SpellDurationEntry>               SpellDuration { get; set; }
         public static Storage<SpellRadiusEntry>                 SpellRadius { get; set; }
         public static Storage<SpellRangeEntry>                  SpellRange { get; set; }
+        public static Storage<SummonPropertiesEntry>            SummonProperties { get; set; }
         public static Storage<RandPropPointsEntry>              RandPropPoints { get; set; }
 
         public static Storage<SkillLineAbilityEntry>            SkillLineAbility { get; set; }

@@ -926,6 +926,18 @@ namespace SpellWork.Spell
 
             if (effect.EffectAttributes != 0)
                 rtb.AppendFormatLine("Attributes: 0x{0:X8} ({1})", effect.EffectAttributes, (SpellEffectAttributes)effect.EffectAttributes);
+
+            switch ((SpellEffects)effect.Effect)
+            {
+                case SpellEffects.SPELL_EFFECT_SUMMON:
+                    if (DBC.DBC.SummonProperties.TryGetValue(effect.EffectMiscValue[1], out var summonProps))
+                        rtb.AppendFormatLine("SummonProperties (Id {0}) Control = {1} ({2}) Slot = {3} ({4}) Faction = {5} Flags = {6} (0x{7:X8})",
+                            summonProps.ID, (SummonPropertiesControl)summonProps.Control, summonProps.Control,
+                            (SummonPropertiesSlot)summonProps.Slot, summonProps.Slot, summonProps.Faction,
+                            (SummonPropertiesFlags)summonProps.Flags[0], summonProps.Flags[0]);
+                    break;
+            }
+
             rtb.AppendLine();
         }
 
@@ -1246,6 +1258,9 @@ namespace SpellWork.Spell
         public float BonusCoefficientFromAP => SpellEffect.BonusCoefficientFromAP;
 
         public int DifficultyID => SpellEffect.DifficultyID;
+
+        public int SummonPropertiesFlags => Effect == (int)SpellEffects.SPELL_EFFECT_SUMMON && DBC.DBC.SummonProperties.TryGetValue(EffectMiscValueB, out var summonProps)
+            ? summonProps.Flags[0] : 0;
 
         public SpellEffectInfo(SpellEffectEntry spellEffectEntry)
         {
