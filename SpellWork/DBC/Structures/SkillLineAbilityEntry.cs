@@ -4,7 +4,6 @@ namespace SpellWork.DBC.Structures
 {
     public sealed class SkillLineAbilityEntry
     {
-        public long RaceMask;
         public string AbilityVerb;
         public string AbilityAllVerb;
         [Index(false)]
@@ -22,5 +21,7 @@ namespace SpellWork.DBC.Structures
         public short UniqueBit;
         public short TradeSkillCategoryID;
         public short SkillupSkillLineID;
+        [Cardinality(2)]
+        public int[] RaceMask = new int[2];
     }
 }

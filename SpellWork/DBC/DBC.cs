@@ -19,8 +19,8 @@ namespace SpellWork.DBC
 {
     public static class DBC
     {
-        public const string Version = "SpellWork 12.0.0 (65390)";
-        public const uint MaxLevel = 80;
+        public const string Version = "SpellWork 12.0.7 (67808)";
+        public const uint MaxLevel = 90;
         public const uint MaxItemLevel = 1300;
 
         public static Storage<AreaGroupMemberEntry>             AreaGroupMember { get; set; }
@@ -566,7 +566,7 @@ namespace SpellWork.DBC
         }
 
         public static uint SelectedLevel = MaxLevel;
-        public static uint SelectedItemLevel = 475;
+        public static uint SelectedItemLevel = 298;
         public static MapDifficultyEntry SelectedMapDifficulty;
     }
 }
